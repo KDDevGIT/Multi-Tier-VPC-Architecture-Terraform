@@ -92,3 +92,20 @@ resource "aws_subnet" "private" {
     }
 }
 
+# NAT Elastic IP for for Private Subnet(s)
+# Outbound Only Internet Access
+resource "aws_eip" "nat" {
+    domain = "vpc"
+    tags = {Name = "${var.project}-nat-eip"}
+}
+
+resource "aws_nat_gateway" "nat" {
+    allocation_id = aws_eip.nat.id
+    subnet_id = aws_subnet.public[0].id #NAT in first public subnet
+    depends_on = [aws_internet_gateway.igw] #Ensures Gateway before NAT creation
+
+    tags = {Name = "${var.project}-nat"}
+}
+
+
+
