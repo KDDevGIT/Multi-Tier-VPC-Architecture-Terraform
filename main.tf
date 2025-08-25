@@ -200,6 +200,31 @@ resource "aws_security_group" "app_sg" {
     tags = {Name = "${var.project}-app-sg"}
 }
 
+# Database Security Group
+# Example Used: PostgreSQL Port 5432
+# Inbound only for AppTier SG and Bastion SG (admin)
+# No public ingress allowed
+resource "aws_security_group" "db_sg" {
+    name = "${var.project}-db-sg"
+    vpc_id = aws_vpc.main.id
+    description = "DB Tier"
+
+    ingress {
+        description = "PostgreSQL from App SG or Bastion SG"
+        from_port = 5432
+        to_port = 5432
+        protocol = "tcp"
+        security_groups = [aws_security_group.app_sg.id, aws_security_group.bastion_sg.id]
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    tags = {Name = "${var.project}-db-sg"}
+}
 
 
 
