@@ -1,13 +1,39 @@
 # AWS Provider and Version
 terraform {
-    # modern Terraform version
+    # Modern Terraform version
     required_version = ">= 1.6.0"
     required_providers {
         aws = {
             source = "hashicorp/aws"
-            # AWS Provicer v5 
+            # AWS Provider v5 
             version = "~> 5.0"
         }
     }
     # Remote State Backend
 }
+
+# Dynamic region
+provider "aws" {
+    region = var.aws_region
+}
+
+# Data Sources
+# Fetch current availability Zones
+# Multiple subnets for High availability
+data "aws_availability_zones" "available" {
+    state = "available"
+}
+
+# Linux Bastion Host 
+data "aws_ami" "amazon_linux" {
+    most_recent = true
+    owners      = ["amazon"]
+
+    filter {
+        name   = "name"
+        values = ["al2023-ami-*-x86_64"]
+    }
+}
+
+# Networking
+# Includes Subnets, Gateways, and Routes
