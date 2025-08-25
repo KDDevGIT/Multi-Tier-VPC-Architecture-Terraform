@@ -226,6 +226,51 @@ resource "aws_security_group" "db_sg" {
     tags = {Name = "${var.project}-db-sg"}
 }
 
+# Bastion Host for Public Subnet(s)
+# Uses AWS Systems Manager (SSM)
+# Managed policy can be applied per IAM role/Instance Profile.
+resource "aws_iam_role" "ssm_role" {
+    name = "${var.project}-bastion-ssm-role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [{
+            Action = "sts:AssumeRole",
+            Effect = "Allow",
+            Principal = {Service = "ec2.amazonaws.com"}
+        }]
+    })
+}
+
+# Grant SSM agent permissions for Session Manager
+resource "aws_iam_role_policy_attachment" "ssm_core" {
+role = aws_iam_role.ssm_role.name
+policy_arn = "arn:aws:iam:aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# Bind role to EC2 Instance
+resource "aws_iam_instance_profile" "ssm_profile" {
+    name = "${var.project}-bastion-ssm-profile"
+    role = aws_iam_role.ssm_role.name
+}
+
+# Bastion EC2 instance in Public Subnet[0]
+# Public IP 
+# Prefer Session Manager over SSH
+resource "aws_instance" "bastion" {
+    ami = data.aws_ami.amazon_linux.id
+    instance_type = var.bastion_instance_type
+    subnet_id = aws_subnet.public[0].id
+    vpc_security_group_ids = [aws_security_group.bastion_sg.id]
+    associate_public_ip_address = true
+    aws_iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
+    # User script on boot for tools, message updates, etc.
+    user_data = file("${path.module}/userdata/bastion.sh")
+
+    tags = {Name = "${var.project}-bastion"}
+}
+
 
 
 
