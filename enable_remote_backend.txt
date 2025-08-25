@@ -1,0 +1,8 @@
+  # Optional: enable a remote backend later (S3 + DynamoDB)
+  # backend "s3" {
+  #   bucket         = "YOUR-TF-STATE-BUCKET"
+  #   key            = "aws-vpc-terraform/dev/terraform.tfstate"
+  #   region         = "us-east-1"
+  #   dynamodb_table = "YOUR-TF-LOCKS"
+  #   encrypt        = true
+  # }
