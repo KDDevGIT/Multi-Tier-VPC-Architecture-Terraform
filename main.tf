@@ -148,6 +148,35 @@ resource "aws_route_table_association" "private_assoc" {
     route_table_id = aws_route_table.private.id
 }
 
+# Security Group Configuration
+
+# Bastion (Jump) SG
+# Allows SSH on Public IP Only (var.my_ip_cidr)
+# Egress (exit) only to reach internet
+resource "aws_security_group" "bastion_sg" {
+    name = "${var.project}-bastion-sg"
+    description = "SSH from Public IP"
+    vpc_id = aws_vpc.main.id
+
+    ingress {
+        description = "SSH"
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = [var.my_ip_cidr] # Public IP        
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    tags = {Name = "${var.project}-bastion-sg"}
+}
+
+
+
 
 
 
