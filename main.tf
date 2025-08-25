@@ -150,7 +150,7 @@ resource "aws_route_table_association" "private_assoc" {
 
 # Security Group Configuration
 
-# Bastion (Jump) SG
+# Bastion (Jump) Security Group
 # Allows SSH on Public IP Only (var.my_ip_cidr)
 # Egress (exit) only to reach internet
 resource "aws_security_group" "bastion_sg" {
@@ -174,6 +174,34 @@ resource "aws_security_group" "bastion_sg" {
     }
     tags = {Name = "${var.project}-bastion-sg"}
 }
+
+# Application Load Balance Security Group (App Tier)
+# Allows HTTP Port 80 from anywhere
+# Egress open for updates
+resource "aws_security_group" "app_sg" {
+    name = "${var.project}-app-sg"
+    vpc_id = aws_vpc.main.id
+    description = "App Tier"
+
+    ingress {
+        description = "HTTP"
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    tags = {Name = "${var.project}-app-sg"}
+}
+
+
+
 
 
 
