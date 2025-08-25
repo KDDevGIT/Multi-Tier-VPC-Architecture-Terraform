@@ -50,3 +50,13 @@ resource "aws_vpc" "main" {
         Env  = var.env
     }
 }
+
+# Internet Gateway (Public, Inbound/Outbound)
+resource "aws_internet_gateway" "igw" {
+    vpc_id = aws_vpc.main.vpc_id
+
+    tags = {
+        Name = "${var.project}-igw"
+    }
+}
+
