@@ -271,6 +271,46 @@ resource "aws_instance" "bastion" {
     tags = {Name = "${var.project}-bastion"}
 }
 
+# Database Instance (PostgreSQL)
+# Only allowed in Private Subnets
+# Limited access to AppTier SG and Bastion SG
+
+# Group private subnets for RDS Placement
+resource "aws_db_subnet_group" "db_subnets" {
+    name = "${var.project}-db-subnets"
+    subnet_ids = [for s in aws_subnet.private : s.id]
+
+    tags = {Name = "${var.project}-db-subnets"}
+}
+
+# Small PostgresSQL Instance for Demos
+# Limited SG Contact to AppTier SG and Bastion SG
+# Private Only
+# Note: multi_az = true allows for failover but is more costly.
+resource "aws_db_instance" "postgres" {
+    identifier = "${var.project}-postgres"
+    engine = "postgres"
+    engine_version = "16.3"
+    instance_class = "db.t3.micro"
+    allocated_storage = 20
+
+    aws_db_subnet_group_name = aws_db_subnet_group.db_subnets.name
+    vpc_security_group_ids = [aws_security_group.db_sg.id]
+
+    username = var.db_username 
+    password = var.db_password
+    publicly_accessible = false
+    multi_az = false
+    deletion_protection = false
+    backup_retention_period = 7
+    skip_final_snapshot = true
+
+    tags = {Name = "${var.project}-postgres"}
+}
+
+
+
+
 
 
 
