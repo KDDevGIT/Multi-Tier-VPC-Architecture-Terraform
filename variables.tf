@@ -25,3 +25,15 @@ variable "aws_region" {
     default = "us-east-1"
 }
 
+# VPC CIDR Check
+variable "vpc_cidr" {
+    description = "CIDR for VPC"
+    type = string
+    default = "10.0.0.0/20"
+
+    validation {
+        condition = can(cidrhost(var.vpc_cidr, 0))
+        error_message = "variable vpc_cidr must be a valid CIDR"
+    }
+}
+
