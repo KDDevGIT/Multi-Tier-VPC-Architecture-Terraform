@@ -24,3 +24,15 @@ output "private_subnet_ids" {
     description = "IDs of Private Subnets"
 }
 
+# Internet Gateway ID
+output "internet_gateway_id" {
+    value = aws_internet_gateway.igw.id
+    description = "Internet Gateway ID"
+}
+
+# NAT Gateway ID
+output "nat_gateway_id" {
+    value = aws_nat_gateway.nat.id
+    description = "NAT Gateway ID. (Singe NAT Default)"
+}
+
