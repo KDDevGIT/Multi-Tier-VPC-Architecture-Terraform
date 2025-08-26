@@ -1,0 +1,24 @@
+# --- Terraform state & caches ---
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+
+# --- Variable files / secrets ---
+terraform.tfvars
+*.auto.tfvars
+env/*.tfvars
+.env
+.env.*
+
+# --- Plan artifacts ---
+*.tfplan
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log
