@@ -89,3 +89,22 @@ variable "db_multi_az" {
     default = false
 }
 
+# Allocated Storage for Database
+variable "db_allocated_storage" {
+    description = "Initial Storage Alloc for RDS (GB)"
+    type = number
+    default = 20
+
+    validation {
+        condition = var.db_allocated_storage >= 20
+        error_message = "RDS Storage must be >= 20GB"
+    }
+}
+
+# Max Allocated Storage for Database
+variable "db_max_allocated_storage" {
+    description = "Max autoscaled storage (GB). Set to 0 to disable autoscaling."
+    type = number
+    default = 0
+}
+
