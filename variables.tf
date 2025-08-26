@@ -11,3 +11,10 @@ variable "project" {
     }
 }
 
+# Environments
+variable "env" {
+    description = "Environment Tag (dev, stage, prod)"
+    type = string
+    default = "dev"
+}
+
