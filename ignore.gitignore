@@ -1,6 +1,19 @@
+# Terraform
 .terraform/
+.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
+
+# Vars/env
+# Hide Sensitive Information
 terraform.tfvars
+*.auto.tfvars
 .env
+.env.*
+env/*.tfvars.local
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
