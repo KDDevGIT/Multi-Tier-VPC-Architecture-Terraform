@@ -79,3 +79,13 @@ variable "db_password" {
         error_message = "Password must be at least 8 characters"
     }
 }
+
+# Optional Toggles
+
+# Enable Multi-Availability Zones
+variable "db_multi_az" {
+    description = "Enable Multi-AZ for RDS" # Higher Cost
+    type = bool
+    default = false
+}
+
