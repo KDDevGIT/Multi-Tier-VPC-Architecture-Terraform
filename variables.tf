@@ -49,3 +49,10 @@ variable "my_ip_cidr" {
     }
 }
 
+# Bastion Instance Type 
+variable "bastion_instance_type" {
+    description = "EC2 instance type for Bastion"
+    type = string
+    default = "t3.micro"
+}
+
