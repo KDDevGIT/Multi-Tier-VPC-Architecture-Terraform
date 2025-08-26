@@ -12,4 +12,15 @@ output "vpc_cidr" {
     description = "VPC CIDR"
 }
 
+# Public Subnet ID
+output "public_subnet_ids" {
+    value = [for s in aws_subnet.public : s.id]
+    description = "IDs of Public Subnets"
+}
+
+# Private Subnet ID
+output "private_subnet_ids" {
+    value = [for s in aws_subnet.public : s.id]
+    description = "IDs of Private Subnets"
+}
 
