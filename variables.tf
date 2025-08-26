@@ -108,3 +108,10 @@ variable "db_max_allocated_storage" {
     default = 0
 }
 
+# tags
+variable "tags" {
+    description = "Extra tags to add all resources"
+    type = map(string)
+    default = {}
+}
+
