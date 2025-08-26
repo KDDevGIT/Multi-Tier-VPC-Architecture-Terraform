@@ -5,7 +5,6 @@
 *.tfstate.*
 
 # Vars/env
-# Hide Sensitive Information
 terraform.tfvars
 *.auto.tfvars
 .env
@@ -17,3 +16,8 @@ env/*.tfvars.local
 Thumbs.db
 .vscode/
 .idea/
+
+# Hide Sensitive Information
+env/*.tfvars
+terraform.tfvars
+*.auto.tfvars
