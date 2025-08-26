@@ -48,3 +48,9 @@ output "bastion_public_ip" {
     description = "Bastion Public IP (Accessible via SSM)"
 }
 
+# Database Subnet Group
+output "db_subnet_group" {
+    value = aws_db_subnet_group.db_subnets.name
+    description = "RDS Database Subnet Group Name"
+}
+
