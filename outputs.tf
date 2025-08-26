@@ -54,3 +54,22 @@ output "db_subnet_group" {
     description = "RDS Database Subnet Group Name"
 }
 
+# RDS Endpoint
+output "rds_endpoint" {
+    value = aws_db_instance.postgres.address
+    description = "RDS Postgres endpoint (private)"
+}
+
+# RDS Port
+output "rds_port" {
+    value = aws_db_instance.postgres.port 
+    description = "RDS Postgres port"
+}
+
+# RDS Username
+# Sensitive outputs hidden by default
+output "rds_username" {
+    value = var.db_username
+    sensitive = true
+    description = "RDS Username"
+}
