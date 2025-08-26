@@ -37,3 +37,15 @@ variable "vpc_cidr" {
     }
 }
 
+# Public IP CIDR Check
+variable "my_ip_cidr" {
+    description = "Verify Public IP CIDR form to allow SSH to Bastion" #(x.x.x.x/32)
+    type = string
+
+    # Fails if incorrect CIDR notation
+    validation {
+        condition = can(cidrhost(var.my_ip_cidr, 0))
+        error_message = "variable my_ip_cidr must be a valid CIDR e.g XXX.X.XXX.X/32"
+    }
+}
+
