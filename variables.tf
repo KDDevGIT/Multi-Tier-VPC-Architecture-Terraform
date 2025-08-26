@@ -56,3 +56,26 @@ variable "bastion_instance_type" {
     default = "t3.micro"
 }
 
+# Database Username
+variable "db_username" {
+    description = "Master Password for RDS Postgres"
+    type = string
+    default = "appuser"
+
+    validation {
+        condition = length(var.db_username) >= 3
+        error_message = "Username must be at least 3 characters"
+    }
+}
+
+# Database Password
+variable "db_password" {
+    description = "Master Password for RDS Postgres"
+    type = string
+    sensitive = true
+
+    validation {
+        condition = length(var.db_password) >= 8
+        error_message = "Password must be at least 8 characters"
+    }
+}
