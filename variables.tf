@@ -18,3 +18,10 @@ variable "env" {
     default = "dev"
 }
 
+# Regions
+variable "aws_region" {
+    description = "AWS Region to Deploy"
+    type = string
+    default = "us-east-1"
+}
+
