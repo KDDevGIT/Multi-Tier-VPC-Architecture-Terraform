@@ -36,3 +36,15 @@ output "nat_gateway_id" {
     description = "NAT Gateway ID. (Singe NAT Default)"
 }
 
+# Bastion Instance ID
+output "bastion_instance_id" {
+    value = aws_instance.bastion.id
+    description = "Bastion EC2 Instance ID"
+}
+
+# Bastion Public IP
+output "bastion_public_ip" {
+    value = aws_instance.bastion.map_public_ip
+    description = "Bastion Public IP (Accessible via SSM)"
+}
+
